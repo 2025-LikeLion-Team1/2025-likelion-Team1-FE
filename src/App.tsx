@@ -1,34 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Button } from 'antd'
+import { useQuery } from '@tanstack/react-query'
+import { useCounterStore } from './store/useCounterStore'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { count, increment, decrement } = useCounterStore()
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['example'],
+    queryFn: () => fetch('https://jsonplaceholder.typicode.com/todos/1').then(res => res.json()),
+  })
 
   return (
-    <>
+    <div style={{ padding: 24 }}>
+      <h1>🧠 Zustand + TanStack + AntD</h1>
+
+      <div style={{ margin: '16px 0' }}>
+        <Button onClick={decrement}>-</Button>
+        <span style={{ margin: '0 8px' }}>{count}</span>
+        <Button type="primary" onClick={increment}>+</Button>
+      </div>
+
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {isLoading ? (
+          <p>Loading data...</p>
+        ) : (
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
