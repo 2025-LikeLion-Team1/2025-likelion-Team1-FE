@@ -1,3 +1,5 @@
+import React from 'react';
+import { colors, typography, layout, calculateOptimalFontWeight } from '../../styles';
 import { Slogan } from './Slogan';
 
 export interface IHeroSectionProps {
@@ -5,32 +7,53 @@ export interface IHeroSectionProps {
 }
 
 export const HeroSection = ({ className = "" }: IHeroSectionProps): React.JSX.Element => {
+  // Hero 타이틀의 동적 fontWeight 계산
+  const heroFontSize = parseInt(typography.fontSize.hero); // 156px
+  const dynamicFontWeight = calculateOptimalFontWeight(heroFontSize, 16, 600);
+
   return (
     <div
-      className={`rounded-tl-[20px] rounded-tr-[20px] w-[1880px] h-[1004px] absolute left-[50%] top-20 overflow-hidden ${className}`}
+      className={`w-full absolute left-0 right-0 overflow-hidden flex flex-col items-center justify-center ${className}`}
       style={{
-        background: "linear-gradient(180deg, rgba(8, 8, 8, 1.00) 84.61538553237915%,rgba(8, 8, 8, 0.00) 100%)",
-        translate: "-50%",
+        background: "linear-gradient(180deg, rgba(8, 8, 8, 1.00) 84.61538553237915%, rgba(8, 8, 8, 0.00) 100%)",
+        borderTopLeftRadius: layout.borderRadius['2xl'],
+        borderTopRightRadius: layout.borderRadius['2xl'],
+        height: layout.spacing.heroHeight,
+        top: layout.spacing['4xl'], // 헤더 60px + 마진 20px = 80px
       }}
     >
       {/* Main Logo and Title */}
-      <div
-        className="w-[930px] h-[236px] absolute left-[50%] bottom-[558px]"
-        style={{ translate: "-50%" }}
+      <div 
+        className="flex flex-row items-center justify-center"
+        style={{ 
+          gap: layout.spacing.heroLogoGap,
+          marginBottom: layout.spacing.heroBottomMargin,
+        }}
       >
         <div
-          className="w-[236px] h-[236px] absolute left-0 top-0 overflow-hidden"
-          style={{ aspectRatio: "1" }}
+          className="overflow-hidden shrink-0"
+          style={{ 
+            width: layout.spacing.heroLogoSize,
+            height: layout.spacing.heroLogoSize,
+            aspectRatio: "1" 
+          }}
         >
           <img
-            className="w-[100%] h-[100%] absolute right-[0%] left-[0%] bottom-[0%] top-[0%] overflow-visible"
+            className="w-[100%] h-[100%] overflow-visible"
             src="/qnahub-logo-11.svg"
             alt="QnAHub Logo"
           />
         </div>
         <div
-          className="text-[#ffffff] text-left font-['Inter',_sans-serif] text-[156px] leading-[156px] font-bold absolute left-[295.03px] top-[50%] flex items-center justify-start"
-          style={{ letterSpacing: "-0.025em", translate: "0 -50%" }}
+          className="text-left flex items-center justify-start"
+          style={{ 
+            color: colors.neutral.white,
+            fontFamily: typography.fontFamily.primary,
+            fontSize: typography.fontSize.hero,
+            lineHeight: typography.lineHeight.tight,
+            fontWeight: dynamicFontWeight, // 동적 계산된 fontWeight
+            letterSpacing: typography.letterSpacing.tight,
+          }}
         >
           QnAHub
         </div>

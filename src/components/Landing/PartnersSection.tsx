@@ -1,59 +1,96 @@
+import React from 'react';
+import { colors, typography, layout, calculateOptimalFontWeight } from '../../styles';
+
 export interface IPartnersSectionProps {
   className?: string;
 }
 
 export const PartnersSection = ({ className = "" }: IPartnersSectionProps): React.JSX.Element => {
+  // 동적 fontWeight 계산
+  const partnerTitleFontSize = parseInt(typography.fontSize['5xl']);
+  
+  const partnerImageStyle = {
+    borderRadius: layout.borderRadius['2xl'],
+    background: "linear-gradient(to left, rgba(8, 8, 8, 0.20), rgba(8, 8, 8, 0.20))",
+    objectFit: "cover" as const,
+  };
+
   return (
     <div className={className}>
       {/* 파트너십 타이틀 */}
       <div
-        className="text-[#eaeaea] text-center font-['Inter',_sans-serif] text-5xl leading-[48px] font-bold absolute left-[50%] top-[2580px] w-[451px] h-12 flex items-center justify-center"
-        style={{ letterSpacing: "-0.025em", translate: "-50%" }}
+        className="text-center absolute flex items-center justify-center"
+        style={{
+          color: colors.neutral.gray100,
+          fontFamily: typography.fontFamily.primary,
+          fontSize: typography.fontSize['5xl'],
+          lineHeight: layout.lineHeights.partner,
+          fontWeight: calculateOptimalFontWeight(partnerTitleFontSize, 16, 600), // 동적 계산
+          letterSpacing: typography.letterSpacing.tight,
+          left: '50%',
+          top: layout.positions.partnerTitleTop,
+          width: layout.maxWidth.partnerTitle,
+          height: layout.heights.partnerTitle,
+          translate: '-50%',
+        }}
       >
         함께하는 파트너십 기업
       </div>
       
       {/* 파트너 이미지들 */}
       <div 
-        className="flex flex-row gap-5 items-start justify-center flex-wrap content-start w-[930px] absolute left-[50%] top-[2700px]"
-        style={{ translate: "-50%" }}
+        className="absolute px-4"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)', // 무조건 2열
+          gap: layout.spacing.lg,
+          maxWidth: layout.maxWidth.partner,
+          width: '100%',
+          left: '50%',
+          top: layout.positions.partnerImagesTop,
+          translate: '-50%',
+        }}
       >
         <img
-          className="rounded-[20px] shrink-0 w-[454px] h-[284px] relative"
+          className="relative"
           style={{
-            background: "linear-gradient(to left, rgba(8, 8, 8, 0.20), rgba(8, 8, 8, 0.20))",
-            objectFit: "cover",
-            marginRight: "20px",
-            marginBottom: "20px",
+            ...partnerImageStyle,
+            width: '100%',
+            height: layout.spacing.imageHeight,
+            minWidth: layout.minWidth.partnerImage,
           }}
           src="/rectangle-40.png"
           alt="Partner 1"
         />
         <img
-          className="rounded-[20px] shrink-0 w-[456px] h-[284px] relative"
+          className="relative"
           style={{
-            background: "linear-gradient(to left, rgba(8, 8, 8, 0.20), rgba(8, 8, 8, 0.20))",
-            objectFit: "cover",
-            marginBottom: "20px",
+            ...partnerImageStyle,
+            width: '100%',
+            height: layout.spacing.imageHeight,
+            minWidth: layout.minWidth.partnerImage,
           }}
           src="/rectangle-50.png"
           alt="Partner 2"
         />
         <img
-          className="rounded-[20px] shrink-0 w-[454px] h-[284px] relative"
+          className="relative"
           style={{
-            background: "linear-gradient(to left, rgba(8, 8, 8, 0.20), rgba(8, 8, 8, 0.20))",
-            objectFit: "cover",
-            marginRight: "20px",
+            ...partnerImageStyle,
+            width: '100%',
+            height: layout.spacing.imageHeight,
+            minWidth: layout.minWidth.partnerImage,
           }}
           src="/rectangle-60.png"
           alt="Partner 3"
         />
         <img
-          className="rounded-[20px] shrink-0 w-[456px] h-[284px] relative"
+          className="relative"
           style={{
-            background: "linear-gradient(to left, rgba(8, 8, 8, 0.20), rgba(8, 8, 8, 0.20))",
-            objectFit: "cover",
+            ...partnerImageStyle,
+            width: '100%',
+            height: layout.spacing.imageHeight,
+            minWidth: layout.minWidth.partnerImage,
           }}
           src="/rectangle-70.png"
           alt="Partner 4"

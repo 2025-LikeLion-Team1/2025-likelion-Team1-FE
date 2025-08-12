@@ -1,22 +1,48 @@
+import React from 'react';
+import { colors, typography, layout, calculateOptimalFontWeight } from '../../styles';
+
 export interface IAIDescriptionSectionProps {
   className?: string;
 }
 
 export const AIDescriptionSection = ({ className = "" }: IAIDescriptionSectionProps): React.JSX.Element => {
+  // 동적 fontWeight 계산
+  const aiTextFontSize = parseInt(typography.fontSize.partner);
+  const descriptionFontSize = parseInt(typography.fontSize.xl);
+  
   return (
     <div className={className}>
       {/* AI 텍스트 */}
       <div
-        className="text-[#204efb] text-center font-['Inter',_sans-serif] text-[40px] leading-[60px] font-semibold absolute left-[calc(50%_-_235px)] top-[1739px] flex items-center justify-center"
-        style={{ letterSpacing: "-0.025em" }}
+        className="text-center absolute flex items-center justify-center"
+        style={{
+          color: colors.primary.blue,
+          fontFamily: typography.fontFamily.primary,
+          fontSize: typography.fontSize.partner,
+          lineHeight: layout.lineHeights.ai,
+          fontWeight: calculateOptimalFontWeight(aiTextFontSize, 16, 600), // 동적 계산
+          letterSpacing: typography.letterSpacing.tight,
+          left: layout.positions.aiTextLeft,
+          top: layout.positions.aiTextTop,
+        }}
       >
         AI
       </div>
       
       {/* 설명 텍스트 */}
       <div
-        className="text-[#eaeaea] text-center font-['Inter',_sans-serif] text-xl leading-[60px] font-semibold absolute left-[50%] top-[1745px] flex items-center justify-center"
-        style={{ letterSpacing: "-0.025em", translate: "-50%" }}
+        className="text-center absolute flex items-center justify-center"
+        style={{
+          color: colors.neutral.gray100,
+          fontFamily: typography.fontFamily.primary,
+          fontSize: typography.fontSize.xl,
+          lineHeight: layout.lineHeights.ai,
+          fontWeight: calculateOptimalFontWeight(descriptionFontSize, 16, 600), // 동적 계산
+          letterSpacing: typography.letterSpacing.tight,
+          left: '50%',
+          top: layout.positions.aiDescTop,
+          translate: '-50%',
+        }}
       >
         를 통해 모든 질문들은 무시되지 않고 요약됩니다.
         <br />

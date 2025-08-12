@@ -1,3 +1,5 @@
+import React from 'react';
+import { colors, layout } from '../../styles';
 import { Header } from './Header';
 import { HeroSection } from './HeroSection';
 import { FeatureSection } from './FeatureSection';
@@ -10,7 +12,13 @@ export interface ILandingPageProps {
 
 export const LandingPage = ({ className = "" }: ILandingPageProps): React.JSX.Element => {
   return (
-    <div className={`bg-[#18181b] h-[3401px] relative overflow-hidden ${className}`}>
+    <div 
+      className={`relative overflow-hidden ${className}`}
+      style={{
+        backgroundColor: colors.neutral.gray900,
+        height: layout.spacing.totalHeight,
+      }}
+    >
       {/* Header */}
       <Header />
       
