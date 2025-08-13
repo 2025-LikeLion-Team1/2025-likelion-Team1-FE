@@ -37,6 +37,7 @@ export const HeroSection = ({ className = "" }: IHeroSectionProps): React.JSX.El
             height: layout.spacing.heroLogoSize,
             aspectRatio: "1" 
           }}
+          data-aos="fade-up" // 로고에 애니메이션
         >
           <img
             className="w-[100%] h-[100%] overflow-visible"
@@ -54,6 +55,7 @@ export const HeroSection = ({ className = "" }: IHeroSectionProps): React.JSX.El
             fontWeight: dynamicFontWeight, // 동적 계산된 fontWeight
             letterSpacing: typography.letterSpacing.tight,
           }}
+           data-aos="fade-up" // 텍스트에 애니메이션
         >
           QnAHub
         </div>

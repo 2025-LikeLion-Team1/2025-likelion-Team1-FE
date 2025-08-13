@@ -34,6 +34,7 @@ export const FeatureSection = ({ className = "" }: IFeatureSectionProps): React.
         left: layout.positions.featureLeft,
         top: layout.positions.featureTop,
       }}
+      data-aos="fade-up" // fade-up 애니메이션 적용
     >
       {/* 질문 섹션 */}
       <div className="flex flex-col items-start justify-center shrink-0 relative" style={{ gap: 0 }}>
@@ -44,6 +45,7 @@ export const FeatureSection = ({ className = "" }: IFeatureSectionProps): React.
               ...featureTextStyle,
               color: colors.primary.blue,
             }}
+            data-aos="fade-up" // fade-up 애니메이션 적용
           >
             질문
           </div>
@@ -55,6 +57,7 @@ export const FeatureSection = ({ className = "" }: IFeatureSectionProps): React.
               width: layout.maxWidth.featureSmallText,
               height: layout.heights.featureText,
             }}
+            data-aos="fade-up" // fade-up 애니메이션 적용
           >
             은
           </div>
@@ -71,7 +74,9 @@ export const FeatureSection = ({ className = "" }: IFeatureSectionProps): React.
             style={{ 
               ...featureTextStyle,
               color: colors.neutral.gray100,
+              
             }}
+            data-aos="fade-up" // fade-up 애니메이션 적용
           >
             무시
           </div>
@@ -80,9 +85,13 @@ export const FeatureSection = ({ className = "" }: IFeatureSectionProps): React.
             style={{ 
               ...subTextStyle,
               color: colors.neutral.gray100,
+              minWidth: 0,
               flex: 1,
               height: layout.heights.featureText,
+              whiteSpace: 'nowrap',
+              overflow: 'visible',
             }}
+            data-aos="fade-up" // fade-up 애니메이션 적용
           >
             되지 않습니다
           </div>
@@ -98,6 +107,7 @@ export const FeatureSection = ({ className = "" }: IFeatureSectionProps): React.
               ...featureTextStyle,
               color: colors.primary.blue,
             }}
+            data-aos="fade-up" // fade-up 애니메이션 적용
           >
             답변
           </div>
@@ -109,6 +119,7 @@ export const FeatureSection = ({ className = "" }: IFeatureSectionProps): React.
               width: layout.maxWidth.featureSmallText,
               height: layout.heights.featureText,
             }}
+            data-aos="fade-up" // fade-up 애니메이션 적용
           >
             은
           </div>
@@ -123,6 +134,7 @@ export const FeatureSection = ({ className = "" }: IFeatureSectionProps): React.
               ...featureTextStyle,
               color: colors.neutral.gray100,
             }}
+            data-aos="fade-up" // fade-up 애니메이션 적용
           >
             투명
           </div>
@@ -133,7 +145,9 @@ export const FeatureSection = ({ className = "" }: IFeatureSectionProps): React.
               color: colors.neutral.gray100,
               width: layout.maxWidth.featureSubText,
               height: layout.heights.featureText,
+              whiteSpace: 'nowrap',
             }}
+            data-aos="fade-up" // fade-up 애니메이션 적용
           >
             하게 공개됩니다
           </div>

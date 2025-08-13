@@ -12,6 +12,7 @@ export const AIDescriptionSection = ({ className = "" }: IAIDescriptionSectionPr
   
   return (
     <div className={className}>
+      
       {/* AI 텍스트 */}
       <div
         className="text-center absolute flex items-center justify-center"
@@ -25,6 +26,7 @@ export const AIDescriptionSection = ({ className = "" }: IAIDescriptionSectionPr
           left: layout.positions.aiTextLeft,
           top: layout.positions.aiTextTop,
         }}
+        data-aos="fade-up" // fade-up 애니메이션 적용
       >
         AI
       </div>
@@ -39,10 +41,11 @@ export const AIDescriptionSection = ({ className = "" }: IAIDescriptionSectionPr
           lineHeight: layout.lineHeights.ai,
           fontWeight: calculateOptimalFontWeight(descriptionFontSize, 16, 600), // 동적 계산
           letterSpacing: typography.letterSpacing.tight,
-          left: '50%',
+          left: '51%',
           top: layout.positions.aiDescTop,
           translate: '-50%',
         }}
+        data-aos="fade-up" // fade-up 애니메이션 적용
       >
         를 통해 모든 질문들은 무시되지 않고 요약됩니다.
         <br />

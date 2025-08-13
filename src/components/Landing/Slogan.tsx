@@ -32,6 +32,7 @@ export const Slogan = ({ className = "" }: ISloganProps): React.JSX.Element => {
 
   return (
     <div
+      data-aos="fade-up" // fade-up 애니메이션 적용
       className={`text-center w-full flex items-center justify-center ${className}`}
       style={{ height: layout.heights.slogan }}
     >
