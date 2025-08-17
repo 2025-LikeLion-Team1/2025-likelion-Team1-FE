@@ -29,7 +29,7 @@ export const DashboardCard = ({
       }}
     >
       <div className="flex flex-col items-start justify-between self-stretch flex-1 relative">
-        <div className="flex flex-col items-start justify-start self-stretch shrink-0 relative" style={{ gap: main.sizes.dashboardTitleGap }}>
+        <div className="flex flex-col items-start justify-start self-stretch shrink-0 relative" style={{ gap: main.sizes.dashboardValueGap }}>
           <div
             className="text-left relative"
             style={{ 
@@ -61,7 +61,7 @@ export const DashboardCard = ({
         </div>
         <div 
           className="flex flex-row items-end justify-between self-stretch flex-1 relative"
-          style={{ paddingRight: main.sizes.dashboardValueAreaPadding }}
+          style={{ paddingRight: main.sizes.dashboardValuePaddingLeft }}
         >
           {emoji && (
             <div
@@ -81,7 +81,7 @@ export const DashboardCard = ({
           )}
           <div 
             className="flex flex-row items-center justify-start shrink-0 relative"
-            style={{ gap: main.sizes.dashboardEmojiGap }}
+            style={{ gap: main.sizes.dashboardValueGap }}
           >
             <div
               className="text-center relative flex items-end justify-center"

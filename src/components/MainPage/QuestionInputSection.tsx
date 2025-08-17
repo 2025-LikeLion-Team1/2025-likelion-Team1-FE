@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { main, base } from '../../styles/tokens';
 
 export const QuestionInputSection = () => {
+    const [question, setQuestion] = useState("");
+    const [isClicked, setIsClicked] = useState(false);
+
   return (
     <div 
       className="flex flex-col items-start justify-start shrink-0 relative"
@@ -12,7 +16,8 @@ export const QuestionInputSection = () => {
       <div 
         className="flex flex-row items-end justify-start self-stretch shrink-0 relative" 
         style={{ gap: base.spacing.md }} // 16px
-      >
+
+      >{/* 입력창 + 버튼 */}
         <div 
           className="border-solid border-2 flex flex-row items-start justify-center flex-1 relative"
           style={{
@@ -23,8 +28,13 @@ export const QuestionInputSection = () => {
             padding: main.spacing.questionPadding, // 12px 28px
             gap: main.spacing.cardInnerGap, // 10px
           }}
-        >
-          <div
+
+        >{/* 입력창 */}
+          <input
+            type="text"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="질문을 입력하세요..."
             className="text-left relative flex-1"
             style={{ 
               color: base.colors.neutral.gray400,
@@ -35,9 +45,10 @@ export const QuestionInputSection = () => {
               fontWeight: main.typography.getDynamicWeight.getMedium(14), // 14px Medium
             }}
           >
-            질문을 입력하세요...
-          </div>
+          </input>
         </div>
+
+        {/* 질문하기 버튼 */}
         <div
           className="flex flex-row items-center justify-start shrink-0 relative"
           style={{
@@ -46,6 +57,8 @@ export const QuestionInputSection = () => {
             background: main.gradients.questionBorder, // 그라디언트 배경
             width: main.sizes.questionButtonWidth, // 120px
           }}
+          onMouseDown={() => setIsClicked(true)}
+          onMouseUp={() => setIsClicked(false)}
         >
           <div
             className="flex flex-row items-center justify-center flex-1 relative"
@@ -53,7 +66,10 @@ export const QuestionInputSection = () => {
               borderRadius: main.borderRadius.button, // 100px
               padding: main.spacing.buttonPadding, // 9px 14px
               gap: main.spacing.cardInnerGap, // 10px
-              background: main.gradients.questionButton, // 버튼 배경 그라디언트
+              background: isClicked
+                ? "linear-gradient(90deg, #04163eff, #05248dff)" // 클릭 시 더 진한 파랑
+                : main.gradients.questionButton,
+              transition: "background 0.2s ease-in-out"
             }}
           >
             <img
@@ -75,7 +91,9 @@ export const QuestionInputSection = () => {
                 letterSpacing: base.typography.letterSpacing.tight,
                 fontFamily: base.typography.fontFamily.primary,
                 fontWeight: main.typography.getDynamicWeight.getSemiBold(14), // 14px SemiBold
-              }}
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+               }}
             >
               질문하기
             </div>

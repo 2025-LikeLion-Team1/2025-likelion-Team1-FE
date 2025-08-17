@@ -8,3 +8,4 @@ export { AIAnalysisCard } from './AIAnalysisCard';
 export { SectionHeader } from './SectionHeader';
 export { NoticeItem } from './NoticeItem';
 export { AnswerCard } from './AnswerCard';
+export { CommunityPostCard } from './CommunityPostCard';
