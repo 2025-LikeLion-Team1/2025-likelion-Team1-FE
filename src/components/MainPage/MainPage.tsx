@@ -79,7 +79,7 @@ export const MainPage = () => {
                     date="07/01"
                   />
                   <NoticeItem
-                    title="축하해주세요! 11기 수료생, 'NEKAㄹAㅋㅜ배' 합격자 인터뷰 공개"
+                    title="축하해주세요! 11기 수료생, '네카라쿠배' 합격자 인터뷰 공개"
                     date="06/29"
                   />
                 </div>

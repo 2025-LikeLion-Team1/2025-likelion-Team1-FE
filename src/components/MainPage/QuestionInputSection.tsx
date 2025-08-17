@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { main, base } from '../../styles/tokens';
+import { motion } from "framer-motion";
+
 
 export const QuestionInputSection = () => {
     const [question, setQuestion] = useState("");
     const [isClicked, setIsClicked] = useState(false);
+    const [isRight, setIsRight] = useState(false);
 
   return (
     <div 
@@ -39,6 +42,7 @@ export const QuestionInputSection = () => {
             style={{ 
               backgroundColor: base.colors.neutral.black,
               border: 'none',
+              outline: 'none',
               color: base.colors.neutral.gray400,
               fontSize: main.typography.fontSize.body, // 14px
               lineHeight: main.typography.lineHeight.tight, // 24px
@@ -107,6 +111,8 @@ export const QuestionInputSection = () => {
         </div>
 
       </div>
+
+      {/* 1:1 질문하기 + 안내 */}
       <div
         className="flex flex-row items-center justify-start shrink-0 relative"
         style={{ 
@@ -114,43 +120,56 @@ export const QuestionInputSection = () => {
           paddingLeft: main.spacing.lg, // 24px
           gap: main.spacing.tagGap, // 20px
         }}
+        
+      >{/* 움직이는 ellipse */}
+      <div style={{ position: "relative", width: main.sizes.questionIconSize, height: main.sizes.questionIconHeight }}>
+  
+  
+  <img
+    src="/group-10.svg"
+    alt="1:1 Icon"
+    style={{
+      width: main.sizes.questionIconSize,
+      height: main.sizes.questionIconHeight,
+      position: "absolute",
+      top: 0,
+      left: 0,
+      filter: isRight ? "grayscale(100%)" : "grayscale(0%)", // 오른쪽이면 회색, 왼쪽이면 원래색
+      transition: "filter 0.3s ease-in-out", // 부드럽게 색상 변경
+    }}
+  />
+
+  {/* 움직이는 ellipse */}
+  <motion.img
+    src="/ellipse.svg"
+    alt="Moving Ellipse"
+    style={{
+      width: 18,
+      height: 18,
+      position: "absolute",
+      top: "15%",
+      left: 2,
+      transform: "translateY(-50%)",
+      cursor: "pointer",
+    }}
+    animate={{ x: isRight ? 20 : 0 }}
+    transition={{ type: "spring", stiffness: 300 }}
+    onClick={() => setIsRight(!isRight)}
+  />
+</div>
+
+      <div
+        style={{
+          color: base.colors.neutral.gray400,
+          fontSize: main.typography.fontSize.body,
+          lineHeight: main.typography.lineHeight.tight,
+          letterSpacing: base.typography.letterSpacing.tight,
+          fontFamily: base.typography.fontFamily.primary,
+          fontWeight: main.typography.getDynamicWeight.getSemiBold(14),
+        }}
       >
-        <div 
-          className="flex flex-row items-center justify-start shrink-0 relative" 
-          style={{ gap: main.spacing.questionIconGap }} // 11px
-        >
-          <img
-            className="shrink-0 relative overflow-visible"
-            style={{ 
-              width: main.sizes.questionIconSize, // 40px
-              height: main.sizes.questionIconHeight, // 24px
-            }}
-            src="/group-10.svg"
-            alt="1:1 Icon"
-          />
-          <div
-            className="text-left relative flex items-center justify-start"
-            style={{ 
-              color: base.colors.neutral.gray400,
-              fontSize: main.typography.fontSize.body, // 14px
-              lineHeight: main.typography.lineHeight.tight, // 24px
-              letterSpacing: base.typography.letterSpacing.tight,
-              fontFamily: base.typography.fontFamily.primary,
-              fontWeight: main.typography.getDynamicWeight.getSemiBold(14), // 14px SemiBold
-            }}
-          >
-            1:1 질문하기
-          </div>
-        </div>
-        <img
-          className="shrink-0 relative overflow-visible"
-          style={{ 
-            width: main.sizes.iconSmall, // 16px
-            height: main.sizes.iconSmall, // 16px
-          }}
-          src="/info-icon0.svg"
-          alt="Info Icon"
-        />
+        1:1 질문하기
+      </div>
         <div 
           className="flex flex-col items-start justify-start shrink-0 relative" 
           style={{ gap: main.spacing.cardInnerGap }} // 10px
