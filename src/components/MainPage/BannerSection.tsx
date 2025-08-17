@@ -18,7 +18,7 @@ export const BannerSection = () => {
         className="text-center absolute flex items-center justify-center"
         style={{ 
           color: base.colors.neutral.black,
-          fontSize: main.typography.fontSize.emoji,
+          fontSize: '140px',
           lineHeight: '140px',
           letterSpacing: base.typography.letterSpacing.tight,
           fontFamily: base.typography.fontFamily.primary,
@@ -42,7 +42,7 @@ export const BannerSection = () => {
           fontFamily: base.typography.fontFamily.primary,
           fontWeight: main.typography.getDynamicWeight.bannerTitle(), // 동적 계산
           left: '50%',
-          top: 'calc(50% + 12px)',
+          top: 'calc(48% + 12px)',
           width: '765px',
           height: '100px',
         }}
@@ -62,6 +62,8 @@ export const BannerSection = () => {
           top: 'calc(50% + 96px)',
           width: '330px',
           height: '40px',
+          whiteSpace: 'nowrap',
+          overflow: 'visible',
         }}
       >
         멋사 QnAHub에서 궁금한 거 다 물어봐~

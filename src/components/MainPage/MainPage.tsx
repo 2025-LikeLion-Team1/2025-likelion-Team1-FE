@@ -6,6 +6,8 @@ import { NoticeItem } from './NoticeItem';
 import { AnswerCard } from './AnswerCard';
 import { TrendingQuestionCard } from './TrendingQuestionCard';
 import { main, base } from '../../styles/tokens';
+import { HotTopicCard } from './HotTopicCard'; 
+import { CommunityPostCard } from './CommunityPostCard';
 
 export const MainPage = () => {
   return (
