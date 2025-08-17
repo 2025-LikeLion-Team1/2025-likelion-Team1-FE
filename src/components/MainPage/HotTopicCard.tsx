@@ -1,4 +1,5 @@
 import { main, base } from '../../styles/tokens';
+import React from 'react';
 
 interface HotTopicCardProps {
   id: number;

@@ -23,10 +23,9 @@ export const BannerSection = () => {
           letterSpacing: base.typography.letterSpacing.tight,
           fontFamily: base.typography.fontFamily.primary,
           fontWeight: main.typography.getDynamicWeight.emoji(), // 동적 계산
-          left: 'calc(50% - 149px)',
-          top: 'calc(50% - 133px)',
-          width: '295px',
-          height: '165px',
+          top: 'calc(-20%)',
+          width: '100%',
+          height: '100%',
         }}
       >
         🦁
@@ -59,7 +58,7 @@ export const BannerSection = () => {
           fontFamily: base.typography.fontFamily.primary,
           fontWeight: main.typography.fontWeight.semibold,
           left: 'calc(50% - 166px)',
-          top: 'calc(50% + 96px)',
+          top: 'calc(45% + 96px)',
           width: '330px',
           height: '40px',
           whiteSpace: 'nowrap',
@@ -81,7 +80,6 @@ export const BannerSection = () => {
           top: '2px',
         }}
       >
-        배너 사진입니다
       </div>
     </div>
   );

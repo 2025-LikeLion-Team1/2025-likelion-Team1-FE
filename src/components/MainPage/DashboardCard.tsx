@@ -81,8 +81,7 @@ export const DashboardCard = ({
           )}
           <div 
             className="flex flex-row items-center justify-start shrink-0 relative"
-            style={{ gap: main.sizes.iconLarge }} // iconLarge: "30px" 같은 기존 값 사용
-
+            style={{ gap: main.sizes.dashboardEmojiGap }}
           >
             <div
               className="text-center relative flex items-end justify-center"

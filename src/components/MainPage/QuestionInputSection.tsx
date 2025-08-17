@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { main, base } from '../../styles/tokens';
 
 export const QuestionInputSection = () => {
+    const [question, setQuestion] = useState("");
+    const [isClicked, setIsClicked] = useState(false);
+
   return (
     <div 
       className="flex flex-col items-start justify-start shrink-0 relative"
@@ -12,7 +16,8 @@ export const QuestionInputSection = () => {
       <div 
         className="flex flex-row items-end justify-start self-stretch shrink-0 relative" 
         style={{ gap: base.spacing.md }} // 16px
-      >
+
+      >{/* 입력창 + 버튼 */}
         <div 
           className="border-solid border-2 flex flex-row items-start justify-center flex-1 relative"
           style={{
@@ -23,10 +28,17 @@ export const QuestionInputSection = () => {
             padding: main.spacing.questionPadding, // 12px 28px
             gap: main.spacing.cardInnerGap, // 10px
           }}
-        >
-          <div
+
+        >{/* 입력창 */}
+          <input
+            type="text"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="질문을 입력하세요..."
             className="text-left relative flex-1"
             style={{ 
+              backgroundColor: base.colors.neutral.black,
+              border: 'none',
               color: base.colors.neutral.gray400,
               fontSize: main.typography.fontSize.body, // 14px
               lineHeight: main.typography.lineHeight.tight, // 24px
@@ -35,52 +47,65 @@ export const QuestionInputSection = () => {
               fontWeight: main.typography.getDynamicWeight.getMedium(14), // 14px Medium
             }}
           >
-            질문을 입력하세요...
-          </div>
+          </input>
         </div>
+
+        {/* 질문하기 버튼 */}
         <div
-          className="flex flex-row items-center justify-start shrink-0 relative"
+          className="flex flex-row items-center justify-start shrink-0 relative cursor-pointer"
           style={{
             borderRadius: main.borderRadius.button, // 100px
-            padding: main.spacing.buttonBorderWidth, // 2px (그라디언트 테두리 두께)
-            background: main.gradients.questionBorder, // 그라디언트 배경
+            padding: main.spacing.buttonBorderWidth, // 2px
+            background: main.gradients.questionBorder,
             width: main.sizes.questionButtonWidth, // 120px
           }}
+          onMouseDown={() => setIsClicked(true)}
+          onMouseUp={() => setIsClicked(false)}
+          onMouseLeave={() => setIsClicked(false)} // 마우스가 버튼 밖으로 나가도 원래 상태로
         >
           <div
             className="flex flex-row items-center justify-center flex-1 relative"
             style={{
-              borderRadius: main.borderRadius.button, // 100px
-              padding: main.spacing.buttonPadding, // 9px 14px
-              gap: main.spacing.cardInnerGap, // 10px
-              background: main.gradients.questionButton, // 버튼 배경 그라디언트
+              borderRadius: main.borderRadius.button,
+              padding: main.spacing.buttonPadding,
+              gap: main.spacing.cardInnerGap,
+              background: isClicked
+              ? "linear-gradient(90deg, #04163eff, #05248dff)" // 클릭 시 진한 파랑
+              : main.gradients.questionButton,
+              transition: "background 0.2s ease-in-out",
             }}
-          >
-            <img
-              className="shrink-0 relative overflow-visible"
-              style={{ 
-                width: main.sizes.iconLarge, // 30px
-                height: main.sizes.iconLarge, // 30px
-                aspectRatio: "1",
+  >
+      <img
+        className="shrink-0 relative overflow-visible"
+          style={{
+            width: main.sizes.iconLarge,
+            height: main.sizes.iconLarge,
+            aspectRatio: "1",
+          }}
+          src="/div5.svg"
+          alt="Question Icon"
+        />
+        <div
+          className="text-left relative flex items-center justify-start"
+            style={{
+              color: isClicked
+              ? base.colors.neutral.gray500 // 클릭 시 텍스트 색상
+              : base.colors.neutral.white,
+              fontSize: main.typography.fontSize.body,
+              lineHeight: main.typography.lineHeight.body,
+              letterSpacing: base.typography.letterSpacing.tight,
+              fontFamily: base.typography.fontFamily.primary,
+              fontWeight: main.typography.getDynamicWeight.getSemiBold(14),
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              transition: "color 0.2s ease-in-out", // 텍스트 색상도 부드럽게 전환
               }}
-              src="/div5.svg"
-              alt="Question Icon"
-            />
-            <div
-              className="text-left relative flex items-center justify-start"
-              style={{ 
-                color: base.colors.neutral.white, // 흰색 텍스트
-                fontSize: main.typography.fontSize.body, // 14px
-                lineHeight: main.typography.lineHeight.body, // 20px
-                letterSpacing: base.typography.letterSpacing.tight,
-                fontFamily: base.typography.fontFamily.primary,
-                fontWeight: main.typography.getDynamicWeight.getSemiBold(14), // 14px SemiBold
-              }}
-            >
+    >
               질문하기
             </div>
           </div>
         </div>
+
       </div>
       <div
         className="flex flex-row items-center justify-start shrink-0 relative"
