@@ -37,6 +37,9 @@ export const QuestionInputSection = () => {
             placeholder="질문을 입력하세요..."
             className="text-left relative flex-1"
             style={{ 
+              backgroundColor: base.colors.neutral.black,
+              border: 'none',
+              outline: 'none',
               color: base.colors.neutral.gray400,
               fontSize: main.typography.fontSize.body, // 14px
               lineHeight: main.typography.lineHeight.tight, // 24px
@@ -50,55 +53,60 @@ export const QuestionInputSection = () => {
 
         {/* 질문하기 버튼 */}
         <div
-          className="flex flex-row items-center justify-start shrink-0 relative"
+          className="flex flex-row items-center justify-start shrink-0 relative cursor-pointer"
           style={{
             borderRadius: main.borderRadius.button, // 100px
-            padding: main.spacing.buttonBorderWidth, // 2px (그라디언트 테두리 두께)
-            background: main.gradients.questionBorder, // 그라디언트 배경
+            padding: main.spacing.buttonBorderWidth, // 2px
+            background: main.gradients.questionBorder,
             width: main.sizes.questionButtonWidth, // 120px
           }}
           onMouseDown={() => setIsClicked(true)}
           onMouseUp={() => setIsClicked(false)}
+          onMouseLeave={() => setIsClicked(false)} // 마우스가 버튼 밖으로 나가도 원래 상태로
         >
           <div
             className="flex flex-row items-center justify-center flex-1 relative"
             style={{
-              borderRadius: main.borderRadius.button, // 100px
-              padding: main.spacing.buttonPadding, // 9px 14px
-              gap: main.spacing.cardInnerGap, // 10px
+              borderRadius: main.borderRadius.button,
+              padding: main.spacing.buttonPadding,
+              gap: main.spacing.cardInnerGap,
               background: isClicked
-                ? "linear-gradient(90deg, #04163eff, #05248dff)" // 클릭 시 더 진한 파랑
-                : main.gradients.questionButton,
-              transition: "background 0.2s ease-in-out"
+              ? "linear-gradient(90deg, #04163eff, #05248dff)" // 클릭 시 진한 파랑
+              : main.gradients.questionButton,
+              transition: "background 0.2s ease-in-out",
             }}
-          >
-            <img
-              className="shrink-0 relative overflow-visible"
-              style={{ 
-                width: main.sizes.iconLarge, // 30px
-                height: main.sizes.iconLarge, // 30px
-                aspectRatio: "1",
+  >
+      <img
+        className="shrink-0 relative overflow-visible"
+          style={{
+            width: main.sizes.iconLarge,
+            height: main.sizes.iconLarge,
+            aspectRatio: "1",
+          }}
+          src="/div5.svg"
+          alt="Question Icon"
+        />
+        <div
+          className="text-left relative flex items-center justify-start"
+            style={{
+              color: isClicked
+              ? base.colors.neutral.gray500 // 클릭 시 텍스트 색상
+              : base.colors.neutral.white,
+              fontSize: main.typography.fontSize.body,
+              lineHeight: main.typography.lineHeight.body,
+              letterSpacing: base.typography.letterSpacing.tight,
+              fontFamily: base.typography.fontFamily.primary,
+              fontWeight: main.typography.getDynamicWeight.getSemiBold(14),
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              transition: "color 0.2s ease-in-out", // 텍스트 색상도 부드럽게 전환
               }}
-              src="/div5.svg"
-              alt="Question Icon"
-            />
-            <div
-              className="text-left relative flex items-center justify-start"
-              style={{ 
-                color: base.colors.neutral.white, // 흰색 텍스트
-                fontSize: main.typography.fontSize.body, // 14px
-                lineHeight: main.typography.lineHeight.body, // 20px
-                letterSpacing: base.typography.letterSpacing.tight,
-                fontFamily: base.typography.fontFamily.primary,
-                fontWeight: main.typography.getDynamicWeight.getSemiBold(14), // 14px SemiBold
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-               }}
-            >
+    >
               질문하기
             </div>
           </div>
         </div>
+
       </div>
       <div
         className="flex flex-row items-center justify-start shrink-0 relative"
