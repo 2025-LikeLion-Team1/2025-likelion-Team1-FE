@@ -577,10 +577,13 @@ video {
   top: 0px;
 }
 
+<<<<<<< HEAD
 .top-4 {
   top: 1rem;
 }
 
+=======
+>>>>>>> 214e724 ( feat : pageAnswers 구현 (#12))
 .top-\[124px\] {
   top: 124px;
 }
@@ -641,14 +644,24 @@ video {
   height: 832px;
 }
 
+<<<<<<< HEAD
 .h-\[90px\] {
   height: 90px;
 }
 
+=======
+>>>>>>> 214e724 ( feat : pageAnswers 구현 (#12))
 .h-\[auto\] {
   height: auto;
 }
 
+<<<<<<< HEAD
+=======
+.h-full {
+  height: 100%;
+}
+
+>>>>>>> 214e724 ( feat : pageAnswers 구현 (#12))
 .max-h-5 {
   max-height: 1.25rem;
 }
@@ -673,10 +686,13 @@ video {
   width: 1.75rem;
 }
 
+<<<<<<< HEAD
 .w-\[1101px\] {
   width: 1101px;
 }
 
+=======
+>>>>>>> 214e724 ( feat : pageAnswers 구현 (#12))
 .w-\[185px\] {
   width: 185px;
 }
@@ -709,6 +725,13 @@ video {
   flex-shrink: 0;
 }
 
+<<<<<<< HEAD
+=======
+.cursor-pointer {
+  cursor: pointer;
+}
+
+>>>>>>> 214e724 ( feat : pageAnswers 구현 (#12))
 .flex-row {
   flex-direction: row;
 }
@@ -864,10 +887,13 @@ video {
   padding-bottom: 18px;
 }
 
+<<<<<<< HEAD
 .pl-0\.5 {
   padding-left: 0.125rem;
 }
 
+=======
+>>>>>>> 214e724 ( feat : pageAnswers 구현 (#12))
 .pl-3\.5 {
   padding-left: 0.875rem;
 }
@@ -884,10 +910,13 @@ video {
   padding-left: 355px;
 }
 
+<<<<<<< HEAD
 .pr-0\.5 {
   padding-right: 0.125rem;
 }
 
+=======
+>>>>>>> 214e724 ( feat : pageAnswers 구현 (#12))
 .pr-2\.5 {
   padding-right: 0.625rem;
 }
@@ -1019,4 +1048,24 @@ video {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
+<<<<<<< HEAD
+=======
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.transition {
+  transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.focus\:outline-none:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+>>>>>>> 214e724 ( feat : pageAnswers 구현 (#12))
       
