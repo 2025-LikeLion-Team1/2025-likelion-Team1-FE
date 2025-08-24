@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "2025-likelion-Team1-FE",
   "private": true,
   "scripts": {
@@ -8,64 +7,21 @@
     "preview": "vite preview --config MainPage/vite.config.ts"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "@tanstack/react-query": "^4.36.1",
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.7",
+    "antd": "^5.15.7",
     "aos": "^2.3.4",
-    "react-router-dom": "^7.8.2",
-    "@tanstack/react-query": "^4.36.1",
-  "antd": "^5.15.7",
-  "framer-motion": "^12.23.12"
+    "framer-motion": "^12.23.12",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.8.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-react-swc": "^3.6.0",
-    "vite": "^7.0.4",
+    "@tailwindcss/postcss": "^4.1.12",
     "@types/json-schema": "^7.0.15",
-    "@types/json5": "^0.0.30"
-=======
-  "name": "2025-likelion-team1-fe",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "format": "prettier --write --cache ."
-  },
-  "dependencies": {
-    "@tanstack/react-query": "^5.83.0",
-    "antd": "^5.26.5",
-    "aos": "^2.3.4",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.11",
-    "zustand": "^5.0.6"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.30.1",
-    "@tailwindcss/postcss": "^4.1.11",
-    "@types/aos": "^3.0.7",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@typescript-eslint/parser": "^8.36.0",
-    "@vitejs/plugin-react-swc": "^3.10.2",
-    "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.5.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
-    "prettier": "^3.6.2",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.35.1",
+    "@types/json5": "^0.0.30",
+    "@vitejs/plugin-react-swc": "^3.6.0",
     "vite": "^7.0.4"
->>>>>>> e6cf635802ad861f5be45d29b9b36bbe0c48eec2
   }
 }
