@@ -32,7 +32,11 @@ export const PartnersSection = ({ className = "" }: IPartnersSectionProps): Reac
           width: layout.maxWidth.partnerTitle,
           height: layout.heights.partnerTitle,
           translate: '-50%',
+          minWidth: 0, // 최소 너비 설정
+          whiteSpace: 'nowrap', // 줄바꿈 방지
+          overflow: 'visible', // 넘치는 텍스트 숨김
         }}
+        data-aos="fade-up" // fade-up 애니메이션 적용
       >
         함께하는 파트너십 기업
       </div>
@@ -50,6 +54,7 @@ export const PartnersSection = ({ className = "" }: IPartnersSectionProps): Reac
           top: layout.positions.partnerImagesTop,
           translate: '-50%',
         }}
+        data-aos="fade-up" // fade-up 애니메이션 적용
       >
         <img
           className="relative"
