@@ -1,0 +1,86 @@
+// Design System Layout & Spacing
+export const layout = {
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px',
+    '2xl': '48px',
+    '3xl': '64px',
+    '4xl': '80px',
+    '5xl': '96px',
+    header: '60px',
+    headerMargin: '20px',
+    heroHeight: '1004px',
+    totalHeight: '3401px',
+    // 컴포넌트별 특정 spacing
+    headerPadding: '6px',
+    logoGap: '9px',
+    heroLogoGap: '59px',
+    heroBottomMargin: '110px',
+    sloganHeight: '180px',
+    featureGap: '280px',
+    imageHeight: '284px',
+    logoSize: '30px',
+    heroLogoSize: '236px',
+  },
+  positions: {
+    // absolute positioning 값들
+    aiTextTop: '1739px',
+    aiDescTop: '1745px',
+    partnerTitleTop: '2580px',
+    partnerImagesTop: '2700px',
+    featureLeft: 'calc(50% - 689px)',
+    featureTop: 'calc(50% - 516.5px)',
+    aiTextLeft: 'calc(50% - 235px)',
+  },
+  borderRadius: {
+    none: '0',
+    sm: '4px',
+    md: '8px',
+    lg: '12px',
+    xl: '16px',
+    '2xl': '20px',
+    full: '9999px',
+  },
+  maxWidth: {
+    sm: '640px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px',
+    '2xl': '1536px',
+    hero: '930px',
+    slogan: '586px',
+    partner: '950px',
+    partnerTitle: '451px',
+    featureRow: '555px',
+    featureSubText: '313px',
+    featureSmallText: '45px',
+  },
+  minWidth: {
+    partnerImage: '200px', // Grid 시스템에서 최소 크기 보장
+  },
+  heights: {
+    header: '60px',
+    slogan: '180px',
+    image: '284px',
+    featureText: '145px',
+    partnerTitle: '48px',
+  },
+  lineHeights: {
+    feature: '220px',
+    ai: '60px',
+    partner: '48px',
+  },
+  zIndex: {
+    base: 0,
+    overlay: 10,
+    modal: 20,
+    popover: 30,
+    tooltip: 40,
+    header: 50,
+  },
+} as const;
+
+export type Layout = typeof layout;
