@@ -93,12 +93,34 @@ const formatTimeAgo = (dateString: string): string => {
 const convertApiQuestionToLocal = (apiQuestion: ApiQuestion): Question => {
   console.log('Converting API question:', apiQuestion); // 디버깅용
   
+  // 2분 미만인지 확인하는 로직
+  const isWithin2Minutes = () => {
+    try {
+      const now = new Date();
+      const created = new Date(apiQuestion.created_at);
+      
+      if (isNaN(created.getTime())) {
+        return false;
+      }
+      
+      // UTC 시간 처리 (서버가 UTC 시간을 보내는 경우)
+      const createdAsUTC = new Date(apiQuestion.created_at + (apiQuestion.created_at.includes('Z') ? '' : 'Z'));
+      const diffInMinutes = (now.getTime() - createdAsUTC.getTime()) / (1000 * 60);
+      
+      console.log(`질문 ID ${apiQuestion._id}: ${diffInMinutes.toFixed(1)}분 전 작성됨`);
+      return diffInMinutes < 2;
+    } catch (error) {
+      console.error('Error checking isNew:', error);
+      return false;
+    }
+  };
+  
   return {
     id: apiQuestion._id,
     question: apiQuestion.title,
     fires: apiQuestion.total_votes,
     timeAgo: formatTimeAgo(apiQuestion.created_at),
-    isNew: apiQuestion.status === 'unanswered',
+    isNew: isWithin2Minutes(),
   };
 };
 
@@ -144,7 +166,7 @@ export const useRecentAnswers = (skip: number = 0, limit: number = 3) => {
       const convertedAnswers = await Promise.all(
         response.map(apiResponse => convertApiAnswerResponseToLocal(apiResponse))
       );
-      setAnswers(convertedAnswers);
+      setAnswers(convertedAnswers.reverse()); // 최근순으로 정렬
       setTotal(response.length);
     } catch (err) {
       console.error('Error fetching answers:', err);
@@ -172,7 +194,7 @@ export const useHotQuestions = (skip: number = 0, limit: number = 4) => {
       setError(null);
       const response = await apiService.getHotQuestions(skip, limit);
       const convertedQuestions = response.map(convertApiQuestionToLocal);
-      setQuestions(convertedQuestions);
+      setQuestions(convertedQuestions.reverse()); // 최근순으로 정렬
       setTotal(response.length); // 실제 total은 별도 API 또는 헤더에서 가져와야 함
     } catch (err) {
       setError(err instanceof Error ? err.message : '데이터를 불러오는데 실패했습니다.');
@@ -202,7 +224,7 @@ export const useRepresentativeQuestions = (skip: number = 0, limit: number = 10)
       setError(null);
       const response = await apiService.getRepresentativeQuestions(skip, limit);
       const convertedQuestions = response.map(convertApiQuestionToLocal);
-      setQuestions(convertedQuestions);
+      setQuestions(convertedQuestions.reverse()); // 최근순으로 정렬
       setTotal(response.length); // 실제 total은 별도 API 또는 헤더에서 가져와야 함
     } catch (err) {
       setError(err instanceof Error ? err.message : '데이터를 불러오는데 실패했습니다.');

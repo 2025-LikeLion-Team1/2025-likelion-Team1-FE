@@ -20,7 +20,8 @@ export const QnAHubFinal = ({
   className = '',
   ...props
 }: IQnAHubFinalProps): JSX.Element => {
-  const [useApiData, setUseApiData] = useState(false); // API 데이터 사용 여부를 토글할 수 있도록
+  // API 모드를 기본으로 설정 (토글 제거)
+  const useApiData = true;
   
   // API 훅들
   const { 
@@ -123,10 +124,6 @@ export const QnAHubFinal = ({
     // TODO: 더 많은 질문 보기 로직 구현
   };
 
-  const toggleApiMode = () => {
-    setUseApiData(!useApiData);
-  };
-
   return (
     <div
       className={`h-[1800px] relative overflow-hidden ${className}`}
@@ -136,20 +133,6 @@ export const QnAHubFinal = ({
     >
       {/* Header */}
       <Header />
-
-      {/* API 모드 토글 버튼 (개발용) */}
-      <div className="absolute top-4 right-4 z-50">
-        <button
-          onClick={toggleApiMode}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            useApiData 
-              ? 'bg-green-500 text-white hover:bg-green-600' 
-              : 'bg-gray-500 text-white hover:bg-gray-600'
-          }`}
-        >
-          {useApiData ? 'API 모드' : '로컬 모드'}
-        </button>
-      </div>
 
       {/* 로딩/에러 상태 표시 */}
       {useApiData && (answersLoading || questionsLoading) && (
