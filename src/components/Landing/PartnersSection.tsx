@@ -15,6 +15,12 @@ export const PartnersSection = ({ className = "" }: IPartnersSectionProps): Reac
     objectFit: "cover" as const,
   };
 
+  // 멋쟁이사자처럼 로고 클릭 핸들러
+  const handleLikeLionClick = () => {
+    // 개발 환경에서는 localhost:3001, 배포 환경에서는 /likelion_univ로 이동
+      window.location.href = 'http://localhost:3001';
+  };
+
   return (
     <div className={className}>
       {/* 파트너십 타이틀 */}
@@ -57,7 +63,7 @@ export const PartnersSection = ({ className = "" }: IPartnersSectionProps): Reac
         data-aos="fade-up" // fade-up 애니메이션 적용
       >
         <img
-          className="relative"
+          className="relative cursor-pointer hover:opacity-80 transition-opacity duration-200"
           style={{
             ...partnerImageStyle,
             width: '100%',
@@ -65,10 +71,12 @@ export const PartnersSection = ({ className = "" }: IPartnersSectionProps): Reac
             minWidth: layout.minWidth.partnerImage,
           }}
           src="/rectangle-40.png"
-          alt="Partner 1"
+          alt="멋쟁이사자처럼"
+          title="멋쟁이사자처럼 - 클릭하면 메인페이지로 이동합니다"
+          onClick={handleLikeLionClick}
         />
         <img
-          className="relative"
+          className="relative cursor-pointer hover:opacity-80 transition-opacity duration-200"
           style={{
             ...partnerImageStyle,
             width: '100%',
@@ -77,9 +85,11 @@ export const PartnersSection = ({ className = "" }: IPartnersSectionProps): Reac
           }}
           src="/rectangle-50.png"
           alt="Partner 2"
+          title="클릭하면 메인페이지로 이동합니다"
+          onClick={handleLikeLionClick}
         />
         <img
-          className="relative"
+          className="relative cursor-pointer hover:opacity-80 transition-opacity duration-200"
           style={{
             ...partnerImageStyle,
             width: '100%',
@@ -88,9 +98,11 @@ export const PartnersSection = ({ className = "" }: IPartnersSectionProps): Reac
           }}
           src="/rectangle-60.png"
           alt="Partner 3"
+          title="클릭하면 메인페이지로 이동합니다"
+          onClick={handleLikeLionClick}
         />
         <img
-          className="relative"
+          className="relative cursor-pointer hover:opacity-80 transition-opacity duration-200"
           style={{
             ...partnerImageStyle,
             width: '100%',
@@ -99,6 +111,8 @@ export const PartnersSection = ({ className = "" }: IPartnersSectionProps): Reac
           }}
           src="/rectangle-70.png"
           alt="Partner 4"
+          title="클릭하면 메인페이지로 이동합니다"
+          onClick={handleLikeLionClick}
         />
       </div>
     </div>

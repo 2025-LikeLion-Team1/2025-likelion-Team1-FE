@@ -2,9 +2,9 @@
   "name": "2025-likelion-Team1-FE",
   "private": true,
   "scripts": {
-    "dev": "vite --config MainPage/vite.config.ts",
-    "build": "vite build --config MainPage/vite.config.ts",
-    "preview": "vite preview --config MainPage/vite.config.ts"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.83.0",
