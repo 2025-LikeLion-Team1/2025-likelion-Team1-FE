@@ -2,7 +2,7 @@ import React from 'react';
 import { Question } from '../types';
 import { colors, typography, borderRadius, shadows, spacing, layout } from '../tokens';
 import { Button } from './Button';
-import { formatDaysLeft, formatLikeCount, createTextStyle } from '../utils';
+import { formatDaysLeft, formatLikeCount, createTextStyle, isUrgent, formatStatus, calculateDaysLeft } from '../utils';
 
 interface QuestionCardProps {
   question: Question;
@@ -13,15 +13,30 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   question,
   onAnswer,
 }) => {
+  const questionIsUrgent = isUrgent(question.created_at);
+  const daysLeft = calculateDaysLeft(question.created_at);
+  
   const getDayColor = () => {
-    if (question.isUrgent) {
+    if (daysLeft < 0) {
+      // 마감일이 지난 경우
+      return {
+        color: colors.brand.danger,
+      };
+    } else if (daysLeft <= 1) {
+      // 1일 이하 남은 경우 (urgent)
       return {
         background: `linear-gradient(to left, rgba(32, 78, 251, 0.03), rgba(32, 78, 251, 0.03)), linear-gradient(to left, ${colors.brand.danger}, ${colors.brand.danger})`,
         backgroundClip: 'text',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
       };
+    } else if (daysLeft <= 3) {
+      // 3일 이하 남은 경우
+      return {
+        color: colors.brand.warning,
+      };
     }
+    // 일반적인 경우
     return {
       color: colors.brand.primary,
     };
@@ -84,6 +99,13 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
     ...getDayColor(),
   };
 
+  const statusStyles = {
+    color: question.status === 'answered' ? colors.brand.success : colors.brand.warning,
+    fontFamily: typography.fonts.primary,
+    letterSpacing: typography.letterSpacing.tight,
+    ...createTextStyle(typography.sizes.xs, typography.weights.medium),
+  };
+
   return (
     <div style={cardStyles}>
       <div style={{ 
@@ -93,22 +115,27 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         justifyContent: 'space-between',
         gap: spacing.xl 
       }}>
-        <div style={titleStyles}>
-          {question.title}
+        <div>
+          <div style={statusStyles}>
+            {formatStatus(question.status)}
+          </div>
+          <div style={titleStyles}>
+            {question.title}
+          </div>
         </div>
         <div style={statsContainerStyles}>
           <div style={statsStyles}>
             <div style={likeStyles}>
-              {formatLikeCount(question.likeCount)}
+              {formatLikeCount(question.total_votes)}
             </div>
             <div style={dayStyles}>
-              {formatDaysLeft(question.daysLeft)}
+              {formatDaysLeft(question.created_at)}
             </div>
           </div>
           <Button 
             variant="secondary" 
             size="sm"
-            onClick={() => onAnswer?.(question.id)}
+            onClick={() => onAnswer?.(question._id)}
           >
             답변하기
           </Button>

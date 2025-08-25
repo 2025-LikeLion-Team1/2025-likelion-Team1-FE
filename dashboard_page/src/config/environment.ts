@@ -1,14 +1,14 @@
 export const environment = {
   development: {
-    apiUrl: 'http://localhost:3000/api',
+    apiUrl: import.meta.env.VITE_BASE_URL || 'http://localhost:3000',
     enableLogging: true,
   },
   production: {
-    apiUrl: 'https://api.qnahub.xyz',
+    apiUrl: import.meta.env.VITE_BASE_URL || 'https://api.qnahub.xyz',
     enableLogging: false,
   },
   test: {
-    apiUrl: 'http://localhost:3001/api',
+    apiUrl: import.meta.env.VITE_BASE_URL || 'http://localhost:3001',
     enableLogging: false,
   },
 };

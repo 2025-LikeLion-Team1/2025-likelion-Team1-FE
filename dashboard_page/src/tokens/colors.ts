@@ -17,6 +17,8 @@ export const colors = {
   brand: {
     primary: '#204efb',
     danger: '#ec2a2a',
+    success: '#10b981',
+    warning: '#f59e0b',
   },
   
   // Shadow colors

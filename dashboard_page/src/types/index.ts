@@ -1,4 +1,13 @@
 export interface Question {
+  _id: string;
+  title: string;
+  total_votes: number;
+  status: 'answered' | 'unanswered';
+  created_at: string;
+}
+
+// Legacy interface for compatibility
+export interface LegacyQuestion {
   id: string;
   title: string;
   likeCount: number;
