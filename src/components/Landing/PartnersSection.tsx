@@ -18,7 +18,7 @@ export const PartnersSection = ({ className = "" }: IPartnersSectionProps): Reac
   // 멋쟁이사자처럼 로고 클릭 핸들러
   const handleLikeLionClick = () => {
     // 개발 환경에서는 localhost:3001, 배포 환경에서는 /likelion_univ로 이동
-      window.location.href = 'http://localhost:3001';
+      window.location.href = 'http://3.36.109.149/likelion_univ';
   };
 
   return (
