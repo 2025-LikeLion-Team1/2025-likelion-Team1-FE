@@ -5,23 +5,27 @@ import { assets, content } from '../data/content';
 interface QuestionInputProps {
   className?: string;
   onSubmit?: (question: string) => void;
+  isLoading?: boolean;
+  error?: string | null;
 }
 
 export const QuestionInput: React.FC<QuestionInputProps> = ({ 
   className = '', 
-  onSubmit 
+  onSubmit,
+  isLoading = false,
+  error = null
 }) => {
   const [question, setQuestion] = React.useState('');
 
   const handleSubmit = () => {
-    if (question.trim() && onSubmit) {
+    if (question.trim() && onSubmit && !isLoading) {
       onSubmit(question.trim());
       setQuestion('');
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !isLoading) {
       handleSubmit();
     }
   };
@@ -73,14 +77,23 @@ export const QuestionInput: React.FC<QuestionInputProps> = ({
           {/* 버튼 콘텐츠 */}
           <button
             onClick={handleSubmit}
-            className="absolute inset-0 rounded-full flex flex-row gap-2.5 items-center justify-center cursor-pointer transition-opacity hover:opacity-80 border-none bg-transparent z-10"
+            disabled={isLoading || !question.trim()}
+            className={`absolute inset-0 rounded-full flex flex-row gap-2.5 items-center justify-center transition-opacity border-none bg-transparent z-10 ${
+              isLoading || !question.trim() 
+                ? 'opacity-50 cursor-not-allowed' 
+                : 'cursor-pointer hover:opacity-80'
+            }`}
           >
-            <img
-              className="shrink-0 w-[30px] h-[30px] relative overflow-visible"
-              style={{ aspectRatio: "1" }}
-              src={assets.submit}
-              alt="Submit"
-            />
+            {isLoading ? (
+              <div className="w-[30px] h-[30px] border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <img
+                className="shrink-0 w-[30px] h-[30px] relative overflow-visible"
+                style={{ aspectRatio: "1" }}
+                src={assets.submit}
+                alt="Submit"
+              />
+            )}
             <div
               className="text-left leading-5 relative flex items-center justify-start"
               style={{ 
@@ -89,11 +102,18 @@ export const QuestionInput: React.FC<QuestionInputProps> = ({
                 ...designTokens.typography.semibold.sm,
               }}
             >
-              {content.input.buttonText}
+              {isLoading ? '제출 중...' : content.input.buttonText}
             </div>
           </button>
         </div>
       </div>
+      
+      {/* 에러 메시지 */}
+      {error && (
+        <div className="w-full bg-red-50 border border-red-200 rounded-lg p-3">
+          <p className="text-red-600 text-sm">{error}</p>
+        </div>
+      )}
     </div>
   );
 };

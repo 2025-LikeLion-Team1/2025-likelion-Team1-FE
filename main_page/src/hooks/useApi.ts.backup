@@ -1,0 +1,375 @@
+import { useState, useEffect } from 'react';
+import { apiService, ApiQuestion, ApiAnswerResp// API 질문을 로컬 Question 타입으로 변환
+const convertApiQuestionToLocal = async (apiQuestion: ApiQuestion): Promise<Question> => {
+  console.log('Converting API question:', apiQuestion); // 디버깅용
+  
+  // 질문의 실제 좋아요 수를 가져오기
+  let actualLikes = apiQuestion.total_votes; // 기본값
+  try {
+    const likesData = await apiService.getQuestionLikes(apiQuestion._id);
+    console.log('Question likes data:', likesData);
+    // API 응답 구조에 따라 실제 좋아요 수 추출
+    if (likesData && typeof likesData.total_votes === 'number') {
+      actualLikes = likesData.total_votes;
+    }
+  } catch (err) {
+    console.warn('Failed to fetch question likes:', err);
+    // 실패시 기본값 사용
+  }
+  
+  return {
+    id: apiQuestion._id,
+    question: apiQuestion.title,
+    likes: actualLikes,
+    timeAgo: formatTimeAgo(apiQuestion.created_at),
+    isNew: apiQuestion.status === 'unanswered',
+  };
+};tQuestionResponse, InvalidQuestionResponse, SimilarQuestion } from '../services/api';
+import { Question, Answer } from '../data/qnaData';
+
+// 시간 포맷팅 유틸리티 함수 - 시간대 차이 고려 (개선된 버전)
+const formatTimeAgo = (dateString: string): string => {
+  try {
+    // 현재 시간을 한국 시간대로 가져오기
+    const now = new Date();
+    const created = new Date(dateString);
+    
+    // 유효한 날짜인지 확인
+    if (isNaN(created.getTime())) {
+      console.warn('Invalid date string:', dateString);
+      return '시간 정보 없음';
+    }
+    
+    // 서버가 UTC 시간을 보내고 있다고 가정
+    // 서버 시간이 이미 UTC+9 (한국시간)인 경우를 대비해 두 가지 방법 모두 시도
+    
+    // 방법 1: 서버 시간을 UTC로 간주하고 한국 시간과 비교
+    const createdAsUTC = new Date(dateString + (dateString.includes('Z') ? '' : 'Z'));
+    const diffMethod1 = now.getTime() - createdAsUTC.getTime();
+    
+    // 방법 2: 서버 시간을 이미 한국 시간으로 간주
+    const diffMethod2 = now.getTime() - created.getTime();
+    
+    // 9시간 차이가 나는지 확인해서 어떤 방법을 사용할지 결정
+    const nineHoursInMs = 9 * 60 * 60 * 1000;
+    const diff1Hours = Math.abs(diffMethod1 / (60 * 60 * 1000));
+    const diff2Hours = Math.abs(diffMethod2 / (60 * 60 * 1000));
+    
+    // 더 합리적인 시간 차이를 선택 (24시간 이내가 더 합리적)
+    let diffInMilliseconds;
+    if (Math.abs(diffMethod1) < Math.abs(diffMethod2) && diff1Hours < 24) {
+      diffInMilliseconds = diffMethod1;
+      console.log('Using Method 1 (UTC conversion)');
+    } else if (diff2Hours < 24) {
+      diffInMilliseconds = diffMethod2;
+      console.log('Using Method 2 (direct comparison)');
+    } else {
+      // 둘 다 24시간 이상이면 UTC 변환 방식 사용
+      diffInMilliseconds = diffMethod1;
+      console.log('Using Method 1 (fallback)');
+    }
+    
+    const diffInSeconds = Math.floor(Math.abs(diffInMilliseconds) / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+    const diffInWeeks = Math.floor(diffInDays / 7);
+    const diffInMonths = Math.floor(diffInDays / 30);
+    
+    // 디버깅용 로그
+    console.log('Time calculation with timezone (v2):', {
+      originalDate: dateString,
+      now: now.toISOString(),
+      nowLocal: now.toLocaleString('ko-KR'),
+      created: created.toISOString(),
+      createdAsUTC: createdAsUTC.toISOString(),
+      diffMethod1Hours: diff1Hours,
+      diffMethod2Hours: diff2Hours,
+      selectedDiffHours: diffInHours,
+      diffInSeconds,
+      diffInMinutes,
+      diffInHours,
+      diffInDays
+    });
+    
+    // 시간 구간별 포맷팅
+    if (diffInSeconds < 60) {
+      return '방금 전';
+    } else if (diffInMinutes < 60) {
+      return `${diffInMinutes}분 전`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours}시간 전`;
+    } else if (diffInDays < 7) {
+      return `${diffInDays}일 전`;
+    } else if (diffInWeeks < 4) {
+      return `${diffInWeeks}주 전`;
+    } else if (diffInMonths < 12) {
+      return `${diffInMonths}개월 전`;
+    } else {
+      return `${Math.floor(diffInMonths / 12)}년 전`;
+    }
+  } catch (error) {
+    console.error('Error formatting time:', error, 'dateString:', dateString);
+    return '시간 정보 오류';
+  }
+};
+
+// API 데이터를 로컬 타입으로 변환하는 유틸리티 함수들
+const convertApiQuestionToLocal = (apiQuestion: ApiQuestion): Question => {
+  console.log('Converting API question:', apiQuestion); // 디버깅용
+  
+  return {
+    id: apiQuestion._id,
+    question: apiQuestion.title,
+    fires: apiQuestion.total_votes,
+    timeAgo: formatTimeAgo(apiQuestion.created_at),
+    isNew: apiQuestion.status === 'unanswered',
+  };
+};
+
+// 새로운 답변 API 응답을 Answer 타입으로 변환
+const convertApiAnswerResponseToLocal = async (apiAnswerResponse: ApiAnswerResponse): Promise<Answer> => {
+  console.log('Converting API answer response:', apiAnswerResponse); // 디버깅용
+  
+  // 답변의 실제 좋아요 수를 가져오기
+  let actualLikes = apiAnswerResponse.answer.total_votes; // 기본값
+  try {
+    const likesData = await apiService.getAnswerLikes(apiAnswerResponse.answer._id);
+    console.log('Answer likes data:', likesData);
+    // API 응답 구조에 따라 실제 좋아요 수 추출
+    if (likesData && typeof likesData.total_votes === 'number') {
+      actualLikes = likesData.total_votes;
+    }
+  } catch (err) {
+    console.warn('Failed to fetch answer likes:', err);
+    // 실패시 기본값 사용
+  }
+  
+  return {
+    id: apiAnswerResponse.answer._id,
+    question: apiAnswerResponse.question.title,
+    answer: apiAnswerResponse.answer.content,
+    likes: actualLikes,
+    timeAgo: formatTimeAgo(apiAnswerResponse.answer.created_at),
+  };
+};
+
+// 최근 답변을 가져오는 훅 (새로운 답변 API 사용)
+export const useRecentAnswers = (skip: number = 0, limit: number = 3) => {
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [total, setTotal] = useState(0);
+
+  const fetchAnswers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await apiService.getRecentAnswers(skip, limit);
+      const convertedAnswers = await Promise.all(
+        response.map(apiResponse => convertApiAnswerResponseToLocal(apiResponse))
+      );
+      setAnswers(convertedAnswers);
+      setTotal(response.length);
+    } catch (err) {
+      console.error('Error fetching answers:', err);
+      setError(err instanceof Error ? err.message : 'Failed to fetch answers');
+    } finally {
+      setLoading(false);
+    }
+  };  useEffect(() => {
+    fetchAnswers();
+  }, [skip, limit]);
+
+  return { answers, loading, error, total, refetch: fetchAnswers };
+};
+
+// 인기 질문을 가져오는 훅
+export const useHotQuestions = (skip: number = 0, limit: number = 4) => {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [total, setTotal] = useState(0);
+
+  const fetchQuestions = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await apiService.getHotQuestions(skip, limit);
+      const convertedQuestions = response.map(convertApiQuestionToLocal);
+      setQuestions(convertedQuestions);
+      setTotal(response.length); // 실제 total은 별도 API 또는 헤더에서 가져와야 함
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '데이터를 불러오는데 실패했습니다.');
+      console.error('Failed to fetch hot questions:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [skip, limit]);
+
+  return { questions, loading, error, total, refetch: fetchQuestions };
+};
+
+// 대표 질문을 가져오는 훅
+export const useRepresentativeQuestions = (skip: number = 0, limit: number = 10) => {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [total, setTotal] = useState(0);
+
+  const fetchQuestions = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await apiService.getRepresentativeQuestions(skip, limit);
+      const convertedQuestions = response.map(convertApiQuestionToLocal);
+      setQuestions(convertedQuestions);
+      setTotal(response.length); // 실제 total은 별도 API 또는 헤더에서 가져와야 함
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '데이터를 불러오는데 실패했습니다.');
+      console.error('Failed to fetch representative questions:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [skip, limit]);
+
+  return { questions, loading, error, total, refetch: fetchQuestions };
+};
+
+// 질문 제출 훅 - 새로운 API 스펙 대응
+export const useSubmitQuestion = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [similarQuestion, setSimilarQuestion] = useState<SimilarQuestion | null>(null);
+  const [showSimilarQuestion, setShowSimilarQuestion] = useState(false);
+
+  const submitQuestion = async (content: string, force: boolean = false): Promise<{
+    success: boolean;
+    status?: "new_question_submitted" | "similar_question_found" | "invalid_question";
+    message?: string;
+  }> => {
+    try {
+      setLoading(true);
+      setError(null);
+      setSimilarQuestion(null);
+      setShowSimilarQuestion(false);
+      
+      const response = await apiService.submitQuestion(content, force);
+      
+      // 부적절한 질문 응답 처리
+      if ('detail' in response) {
+        const invalidResponse = response as InvalidQuestionResponse;
+        setError(invalidResponse.detail);
+        return { 
+          success: false, 
+          status: "invalid_question", 
+          message: invalidResponse.detail 
+        };
+      }
+      
+      // 정상 응답 처리
+      const validResponse = response as SubmitQuestionResponse;
+      
+      if (validResponse.status === "similar_question_found") {
+        setSimilarQuestion(validResponse.similar_question);
+        setShowSimilarQuestion(true);
+        return {
+          success: false,
+          status: "similar_question_found",
+          message: validResponse.message
+        };
+      } else if (validResponse.status === "new_question_submitted") {
+        return {
+          success: true,
+          status: "new_question_submitted",
+          message: validResponse.message
+        };
+      }
+      
+      return { success: false, message: "알 수 없는 응답 형식입니다." };
+      
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : '질문 제출에 실패했습니다.';
+      setError(errorMessage);
+      console.error('Failed to submit question:', err);
+      return { success: false, message: errorMessage };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const submitWithForce = (content: string) => {
+    return submitQuestion(content, true);
+  };
+
+  const dismissSimilarQuestion = () => {
+    setShowSimilarQuestion(false);
+    setSimilarQuestion(null);
+  };
+
+  return { 
+    submitQuestion, 
+    submitWithForce,
+    loading, 
+    error, 
+    similarQuestion,
+    showSimilarQuestion,
+    dismissSimilarQuestion
+  };
+};
+
+// 좋아요 기능 훅
+export const useLike = () => {
+  const [loading, setLoading] = useState<string | null>(null); // 현재 로딩 중인 아이템 ID
+  const [error, setError] = useState<string | null>(null);
+
+  const likeQuestion = async (questionId: string): Promise<boolean> => {
+    try {
+      console.log('🔥 likeQuestion called with ID:', questionId); // 디버깅 로그
+      setLoading(questionId);
+      setError(null);
+      await apiService.likeQuestion(questionId);
+      console.log('✅ 질문 좋아요 성공:', questionId);
+      return true;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : '좋아요 처리에 실패했습니다.';
+      setError(errorMessage);
+      console.error('❌ Failed to like question:', questionId, err);
+      return false;
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const likeAnswer = async (answerId: string): Promise<boolean> => {
+    try {
+      console.log('🔥 likeAnswer called with ID:', answerId); // 디버깅 로그
+      setLoading(answerId);
+      setError(null);
+      await apiService.likeAnswer(answerId);
+      console.log('✅ 답변 좋아요 성공:', answerId);
+      return true;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : '좋아요 처리에 실패했습니다.';
+      setError(errorMessage);
+      console.error('❌ Failed to like answer:', answerId, err);
+      return false;
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const isLoading = (itemId: string): boolean => {
+    return loading === itemId;
+  };
+
+  return { likeQuestion, likeAnswer, isLoading, error };
+};

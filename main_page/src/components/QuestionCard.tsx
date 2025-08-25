@@ -5,9 +5,21 @@ import { Question } from '../data/qnaData';
 interface QuestionCardProps {
   question: Question;
   className?: string;
+  onLike?: (questionId: string) => void;
+  isLiking?: boolean;
 }
 
-export const QuestionCard: React.FC<QuestionCardProps> = ({ question, className = '' }) => {
+export const QuestionCard: React.FC<QuestionCardProps> = ({ 
+  question, 
+  className = '', 
+  onLike,
+  isLiking = false 
+}) => {
+  const handleLike = () => {
+    if (onLike && !isLiking) {
+      onLike(question.id);
+    }
+  };
   if (question.isNew) {
     // 새 질문인 경우 그라데이션 테두리 적용
     return (
@@ -44,8 +56,14 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, className 
           </div>
           <div className="flex flex-row items-start justify-between self-stretch h-5 relative">
             <div className="flex flex-row gap-5 items-center justify-start flex-1 relative">
-              <div
-                className="text-left leading-5 relative"
+              <button
+                onClick={handleLike}
+                disabled={isLiking}
+                className={`text-left leading-5 relative transition-colors ${
+                  isLiking 
+                    ? 'opacity-50 cursor-not-allowed' 
+                    : 'hover:opacity-80 cursor-pointer'
+                }`}
                 style={{ 
                   letterSpacing: "-0.025em",
                   color: designTokens.colors.text.secondary,
@@ -53,7 +71,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, className 
                 }}
               >
                 🔥 {question.fires}
-              </div>
+              </button>
             </div>
             <div
               className="text-right leading-5 relative flex-1 max-w-[100px] overflow-hidden"
@@ -96,8 +114,14 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, className 
         </div>
         <div className="flex flex-row items-start justify-between self-stretch shrink-0 h-5 relative">
           <div className="flex flex-row gap-5 items-center justify-start flex-1 relative">
-            <div
-              className="text-left leading-5 relative"
+            <button
+              onClick={handleLike}
+              disabled={isLiking}
+              className={`text-left leading-5 relative transition-colors ${
+                isLiking 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:opacity-80 cursor-pointer'
+              }`}
               style={{ 
                 letterSpacing: "-0.025em",
                 color: designTokens.colors.text.secondary,
@@ -105,7 +129,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, className 
               }}
             >
               🔥 {question.fires}
-            </div>
+            </button>
           </div>
           <div
             className="text-right leading-5 relative flex-1 max-w-[100px] overflow-hidden"

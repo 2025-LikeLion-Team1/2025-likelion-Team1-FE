@@ -5,3 +5,6 @@ export { QuestionInput } from './QuestionInput';
 export { AnswerCard } from './AnswerCard';
 export { QuestionCard } from './QuestionCard';
 export { SectionHeader } from './SectionHeader';
+export { LoadingCard, LoadingSection } from './LoadingComponents';
+export { ErrorCard } from './ErrorCard';
+export { SimilarQuestionModal } from './SimilarQuestionModal';
